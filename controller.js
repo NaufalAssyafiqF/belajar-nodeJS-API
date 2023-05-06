@@ -17,3 +17,17 @@ exports.tampilSemuaMahasiswa = function(req,res){
         }
     })
 }
+
+//menampilkan semua data berdasarkan id
+exports.tampilBersadarkanNim = function(req,res){
+    let nim = req.params.nim;
+    connection.query('SELECT * FROM mahasiswa WHERE nim = ?',[nim],
+        function (error, rows, fields) {
+            if(error){
+                connection.log(error);
+            }else{
+                response.ok(rows,res);
+            }
+        }
+    )
+}
