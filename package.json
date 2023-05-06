@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/NaufalAssyafiqF/belajar-nodeJS-API/issues"
   },
-  "homepage": "https://github.com/NaufalAssyafiqF/belajar-nodeJS-API#readme"
+  "homepage": "https://github.com/NaufalAssyafiqF/belajar-nodeJS-API#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
 }
