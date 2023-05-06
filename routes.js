@@ -12,5 +12,8 @@ module.exports = function(app){
     app.route('/tampil/:nim')
         .get(jsonku.tampilBersadarkanNim);
 
+    app.route('/tambah')
+        .post(jsonku.tambahData);
+
         
 }
