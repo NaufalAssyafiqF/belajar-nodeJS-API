@@ -2,6 +2,7 @@
 
 var response = require("./res");
 var connection = require("./koneksi");
+const { query } = require("express");
 
 exports.index = function (req, res) {
   response.ok("aplikasi rest API berjalan", res);
@@ -53,3 +54,40 @@ exports.tambahData = function (req, res) {
     }
   );
 };
+
+//mengubah data berdasarkan no
+exports.ubahData = function (req, res) {
+  var no = req.body.no;
+  var nim = req.body.nim;
+  var nama = req.body.nama;
+  var jurusan = req.body.jurusan;
+
+  connection.query(
+    "UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE no=?",
+    [nim, nama, jurusan, no],
+    function (error, rows, fields) {
+      if (error) {
+        connection.log(error);
+      } else {
+        response.ok("berhasil mengubah data", res);
+      }
+    }
+  );
+};
+
+//menghapus data mahasiswa berdasarkan nim
+exports.hapusData = function (req,res){
+  var nim = req.body.nim;
+
+  connection.query(
+    "DELETE FROM mahasiswa WHERE nim=?",
+    [nim],
+    function (error, rows, fields){
+      if(error){
+        console.log(error);
+      }else{
+        response.ok("berhasil menghapus data mahasiswa", res);
+      }
+    }
+  )
+}

@@ -15,5 +15,11 @@ module.exports = function(app){
     app.route('/tambah')
         .post(jsonku.tambahData);
 
+    app.route('/ubah')
+        .put(jsonku.ubahData);
+
+    app.route('/hapus')
+        .delete(jsonku.hapusData);
+
         
 }
