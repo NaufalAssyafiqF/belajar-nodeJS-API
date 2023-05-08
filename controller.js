@@ -21,10 +21,10 @@ exports.tampilSemuaMahasiswa = function (req, res) {
 
 //menampilkan semua data berdasarkan id
 exports.tampilBersadarkanNim = function (req, res) {
-  let nim = req.params.nim;
+  var no_mahasiswa = req.params.no_mahasiswa;
   connection.query(
-    "SELECT * FROM mahasiswa WHERE nim = ?",
-    [nim],
+    "SELECT * FROM mahasiswa WHERE no_mahasiswa = ?",
+    [no_mahasiswa],
     function (error, rows, fields) {
       if (error) {
         connection.log(error);
@@ -37,14 +37,14 @@ exports.tampilBersadarkanNim = function (req, res) {
 
 //menambahkan data mahasiswa
 exports.tambahData = function (req, res) {
-  var no = req.body.no;
+  // var no_mahasiswa = req.body.no_mahasiswa;
   var nim = req.body.nim;
   var nama = req.body.nama;
   var jurusan = req.body.jurusan;
 
   connection.query(
-    "INSERT INTO mahasiswa (no,nim,nama,jurusan) VALUES(?,?,?,?)",
-    [no, nim, nama, jurusan],
+    "INSERT INTO mahasiswa (nama,nim,jurusan) VALUES(?,?,?)",
+    [nama, nim, jurusan],
     function (error, rows, fields) {
       if (error) {
         connection.log(error);
@@ -57,14 +57,14 @@ exports.tambahData = function (req, res) {
 
 //mengubah data berdasarkan no
 exports.ubahData = function (req, res) {
-  var no = req.body.no;
+  var no_mahasiswa = req.body.no_mahasiswa;
   var nim = req.body.nim;
   var nama = req.body.nama;
   var jurusan = req.body.jurusan;
 
   connection.query(
-    "UPDATE mahasiswa SET nim=?, nama=?, jurusan=? WHERE no=?",
-    [nim, nama, jurusan, no],
+    "UPDATE mahasiswa SET nama=?, nim=?, jurusan=? WHERE no_mahasiswa=?",
+    [nama, nim, jurusan, no_mahasiswa],
     function (error, rows, fields) {
       if (error) {
         connection.log(error);
@@ -76,18 +76,32 @@ exports.ubahData = function (req, res) {
 };
 
 //menghapus data mahasiswa berdasarkan nim
-exports.hapusData = function (req,res){
+exports.hapusData = function (req, res) {
   var nim = req.body.nim;
 
   connection.query(
     "DELETE FROM mahasiswa WHERE nim=?",
     [nim],
-    function (error, rows, fields){
-      if(error){
+    function (error, rows, fields) {
+      if (error) {
         console.log(error);
-      }else{
+      } else {
         response.ok("berhasil menghapus data mahasiswa", res);
       }
     }
-  )
-}
+  );
+};
+
+//menampilkan matakuliah group
+exports.tampilGroupMatkul = function (req, res) {
+  connection.query(
+    "SELECT mahasiswa.no_mahasiswa, mahasiswa.nim, mahasiswa.nama, mahasiswa.jurusan, matakuliah.matkul, matakuliah.sks FROM krs JOIN matakuliah JOIN mahasiswa WHERE krs.no_matakuliah = matakuliah.no_matakuliah AND krs.no_mahasiswa = mahasiswa.no_mahasiswa ORDER BY mahasiswa.no_mahasiswa;",
+    function (error, rows, fields) {
+      if (error) {
+        console.log(error);
+      } else {
+        response.okNested(rows, res);
+      }
+    }
+    );
+};

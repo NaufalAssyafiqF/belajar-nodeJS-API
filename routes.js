@@ -9,7 +9,7 @@ module.exports = function(app){
     app.route('/tampil')
         .get(jsonku.tampilSemuaMahasiswa);
 
-    app.route('/tampil/:nim')
+    app.route('/tampil/:no_mahasiswa')
         .get(jsonku.tampilBersadarkanNim);
 
     app.route('/tambah')
@@ -20,6 +20,9 @@ module.exports = function(app){
 
     app.route('/hapus')
         .delete(jsonku.hapusData);
+
+    app.route('/tampil-matakuliah')
+        .get(jsonku.tampilGroupMatkul);
 
         
 }
